@@ -14,7 +14,7 @@ def pytest_configure():
             'django.contrib.auth',
             'django.contrib.contenttypes',
             'django.contrib.sites',
-            'design',  # Add other apps if needed
+            'design', 
         ],
         SITE_ID=1,
         MIDDLEWARE=[
@@ -22,5 +22,5 @@ def pytest_configure():
             'django.contrib.auth.middleware.AuthenticationMiddleware',
             'django.contrib.messages.middleware.MessageMiddleware',
         ],
-        ROOT_URLCONF='rental_service.urls',  # Change to your project's root URL configuration
+        ROOT_URLCONF='rental_service.urls', 
     )
