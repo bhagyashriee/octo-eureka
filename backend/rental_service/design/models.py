@@ -24,22 +24,6 @@ class Rental(models.Model):
     def __str__(self):
         return f'Booking #{self.booking_number} - {self.customer_name}'
 
-    # def calculate_rental_price(self, number_of_kilometers):
-    #     if self.actual_return_date:
-    #         total_days = (self.actual_return_date - self.rental_date).days + 1
-    #     else:
-    #         total_days = 0
-
-    #     if self.car_category == Rental.COMPACT:
-    #         price = total_days * 100  # Assuming the baseDayRental for Compact is 100
-    #     elif self.car_category == Rental.PREMIUM:
-    #         price = total_days * 100 * 1.2 + number_of_kilometers * 2  # Use number_of_kilometers instead of self.return_mileage
-    #     elif self.car_category == Rental.MINIVAN:
-    #         price = total_days * 100 * 1.7 + number_of_kilometers * 3 * 1.5  # Use number_of_kilometers instead of self.number_of_kilometers
-    #     else:
-    #         # Handle any other car category cases here
-    #         price = 0.0
-    #     return price
 
 class ReturnCar(models.Model):
     car_category = models.CharField(max_length=10, choices=Rental.CAR_CATEGORY_CHOICES)
