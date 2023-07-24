@@ -3,7 +3,11 @@
 car rental 
 
 JSON API: JSON API to access car rental data without DRF
+
+
 Django Admin: Use the Django admin interface to manage cars, rentals data
+
+
 Business Logic: The app contains the necessary business logic for handling car rentals, calculations
 
 Installation:
