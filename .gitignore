@@ -1,0 +1,13 @@
+.pyc
+
+venv/
+db.sqlite3
+
+.env
+.vscode/
+.idea/
+.pycproject
+*.bak
+*.tmp
+*.swp
+*~
