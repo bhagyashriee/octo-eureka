@@ -49,3 +49,7 @@ http://127.0.0.1:8000/design/car-return/
 http://127.0.0.1:8000/design/car-return/<str:booking_number>/
 
 
+pytests for validation testing
+
+
+
