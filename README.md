@@ -39,9 +39,13 @@ Access the Django admin interface at http://127.0.0.1:8000/admin/
 Use the admin interface to manage cars, rentals, and other resources.
 
 API Endpoints
+
 http://127.0.0.1:8000/design/rental-registration/
+
 http://127.0.0.1:8000/design/rented_cars/
-http://127.0.0.1:8000/design/car-return
+
+http://127.0.0.1:8000/design/car-return/
+
 http://127.0.0.1:8000/design/car-return/<str:booking_number>/
 
 
