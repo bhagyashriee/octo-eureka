@@ -5,24 +5,6 @@ import pytz
 
 from .models import Rental, ReturnCar
 
-class RentalRegistrationView(View):
-    def get(self, request):
-        rentals = Rental.objects.all()
-
-        rental_data = []
-        for rental in rentals:
-            data = {
-                "booking_number": rental.booking_number,
-                "customer_name": rental.customer_name,
-                "car_category": rental.car_category,
-                "rental_date": rental.rental_date,
-                "pickup_mileage": rental.pickup_mileage,
-            }
-            rental_data.append(data)
-
-        return JsonResponse(rental_data, safe=False)
-
-
 def calculate_rental_price(car_category, total_days, number_of_kilometers):
     base_day_rental = 100  
     kilometer_price = 2  
@@ -59,10 +41,25 @@ def get_response_data(return_car):
 
     return response_data
 
-class CarReturnView(View):
+class RentalRegistrationView(View):
     def get(self, request):
-        booking_number = request.GET.get('booking_number', None)
-        
+        rentals = Rental.objects.all()
+
+        rental_data = []
+        for rental in rentals:
+            data = {
+                "booking_number": rental.booking_number,
+                "customer_name": rental.customer_name,
+                "car_category": rental.car_category,
+                "rental_date": rental.rental_date,
+                "pickup_mileage": rental.pickup_mileage,
+            }
+            rental_data.append(data)
+
+        return JsonResponse(rental_data, safe=False)
+
+class CarReturnView(View):
+    def get(self, request, booking_number=None):
         if booking_number is not None:
             try:
                 return_car = ReturnCar.objects.get(booking_number=booking_number)
@@ -76,15 +73,21 @@ class CarReturnView(View):
                 return JsonResponse({"error": f"No rental found for booking number {booking_number}."}, status=404)
 
         else:
-            return JsonResponse({"error": "Booking number not provided."}, status=400)
+            return_cars = ReturnCar.objects.all()
+            booking_numbers = [car.booking_number for car in return_cars]
 
-def get_returned_cars(request):
-    return_cars = ReturnCar.objects.all()
-    return_data = []
+            if booking_numbers:
+                return JsonResponse({"booking_numbers": booking_numbers}, safe=False)
+            else:
+                return JsonResponse({"error": "No returned cars found."}, status=404)
+            
+class rented_cars(View):
+    def get(self, request):
+        rental_booking_numbers = Rental.objects.values_list('booking_number', flat=True)
+        returned_booking_numbers = ReturnCar.objects.values_list('booking_number', flat=True)
+        pending_booking_numbers = list(set(rental_booking_numbers) - set(returned_booking_numbers))
 
-    for return_car in return_cars:
-        response_data = get_response_data(return_car)
-        if response_data:
-            return_data.append(response_data)
- 
-    return JsonResponse(return_data, safe=False)
+        if pending_booking_numbers:
+            return JsonResponse({"pending_booking_numbers": pending_booking_numbers}, safe=False)
+        else:
+            return JsonResponse({"error": "No pending booking numbers found."}, status=404)
